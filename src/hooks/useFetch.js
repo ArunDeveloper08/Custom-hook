@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 
-const useFetch = (API_URL) => {
+const useFetch = (url, options = {}) => {
   const [response, setResponse] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const getUser = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await fetch(API_URL);
+      const res = await fetch(url, options);
       const json = await res.json();
       setResponse(json);
     } catch (err) {
       setError(err.message);
-      setLoading(false);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
-    getUser();
+    fetchData();
   }, []);
 
   return { response, error, loading };
